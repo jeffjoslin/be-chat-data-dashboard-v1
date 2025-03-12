@@ -1,40 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# [Chat Data](https://www.chat-data.com/) SSO Integration
 
-## Getting Started
+## Introduction
+SSO redirect enables you to authenticate users through your site before seamlessly routing them back to Chat Data to manage their designated chatbot. This feature is particularly valuable for resellers who want to provide their customers with access to chatbot settings and dashboard functionality without having to build these interfaces from scratch using our API.
 
-First, run the development server:
+## How to use
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 1. Set Up the Environment Variables
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- `NEXT_PUBLIC_CHATBOT_ID_1`: The ID of the chatbot 1 that the user has access to.
+- `NEXT_PUBLIC_CHATBOT_ID_2`: The ID of the chatbot 2 that the user has access to.
+- `NEXT_PUBLIC_COMPANY_ID`: Your company ID, which can be found in the [SSO Login](https://www.chat-data.com/account/sso-login) page.
+- `NEXT_PUBLIC_REDIRECT_URL`: The URL of the page you want to redirect to after the user logs out or the chatbot is not found.
+- `PRIVATE_JWT_SECRET`: The private secret key for signing the JWT token, which can be found in the [SSO Login](https://www.chat-data.com/account/sso-login) page.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+If you're subscribed to the **SSO Login** plan of [Chat Data](https://www.chat-data.com/pricing), you can obtain your `PRIVATE_JWT_SECRET` from the [SSO Login](https://www.chat-data.com/account/sso-login) page.
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### 2. Configure DNS Records
+Follow the [White Label Your Chatbot](https://cookbook.chat-data.com/docs/white-label-your-chatbot) guide to configure your custom domain for at least one chatbot, enabling it to point to 'https://www.chat-data.com'. Without this configuration, you'll need to use our default 'https://www.chat-data.com' domain for management, which diminishes the benefits of white labeling.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+### 2. Vercel deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Click **Import** to import your project:
 
-## Learn More
+![Vercel Import](./public/vercel_project_import.png)
 
-To learn more about Next.js, take a look at the following resources:
+- Add Environment Variables:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+![Env Variables](./public/vercel_add_environment_variable.png)
+ 
+- Obtain your deployed page's domain name:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+![Vercel Deployment](./public/vercel_get_domain.png)
 
-## Deploy on Vercel
+- Congratulations! Your setup is complete. Upon clicking the chatbot card, users will be seamlessly redirected to a fully white-labeled settings page featuring your company's branding. Users can manage chatbot settings and view conversations through an interface that appears entirely native to your platform, with no visible connection to Chat Data.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contact
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+[Chat Data LLC](admin@chat-data.com)
