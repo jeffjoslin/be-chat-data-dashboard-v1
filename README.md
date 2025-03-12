@@ -22,17 +22,17 @@ Follow the [White Label Your Chatbot](https://cookbook.chat-data.com/docs/white-
 
 - Click **Import** to import your project:
 
-![Vercel Import](./public/vercel_project_import.png)
+![Vercel Import](./public/git-repo-import.png)
 
 - Add Environment Variables:
 
 ![Env Variables](./public/vercel_add_environment_variable.png)
  
-- Obtain your deployed page's domain name:
-
-![Vercel Deployment](./public/vercel_get_domain.png)
+- Obtain your deployed page's domain name and open the page.
 
 - Congratulations! Your setup is complete. Upon clicking the chatbot card, users will be seamlessly redirected to a fully white-labeled settings page featuring your company's branding. Users can manage chatbot settings and view conversations through an interface that appears entirely native to your platform, with no visible connection to Chat Data.
+
+![SSO DEMO EXAMPLE](./public/sso_example_simple.gif)
 
 ## Contact
 
