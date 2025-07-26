@@ -1,7 +1,9 @@
-# [Chat Data](https://www.chat-data.com/) SSO Integration
+# [Chat Data](https://www.chat-data.com/) SSO Integration with RBAC
 
 ## Introduction
 SSO redirect enables you to authenticate users through your site before seamlessly routing them back to Chat Data to manage their designated chatbot. This feature is particularly valuable for resellers who want to provide their customers with access to chatbot settings and dashboard functionality without having to build these interfaces from scratch using our API.
+
+This demo now includes a **Role-Based Access Control (RBAC)** system using Firebase Authentication and Firestore, allowing you to manage user permissions and control access to specific chatbots with different permission levels.
 
 ## How to use
 
@@ -33,6 +35,18 @@ Follow the [White Label Your Chatbot](https://cookbook.chat-data.com/docs/white-
 - Congratulations! Your setup is complete. Upon clicking the chatbot card, users will be seamlessly redirected to a fully white-labeled settings page featuring your company's branding. Users can manage chatbot settings and view conversations through an interface that appears entirely native to your platform, with no visible connection to Chat Data.
 
 ![SSO DEMO EXAMPLE](./public/sso_example_simple.gif)
+
+## RBAC Features
+
+This demo includes a complete Role-Based Access Control system:
+
+- **User Authentication**: Firebase Auth with email/password and Google sign-in
+- **Role Management**: Admin, Editor, and Viewer roles with different permission levels
+- **Per-Chatbot Access**: Users can have different roles for different chatbots
+- **Admin Dashboard**: User management interface for assigning and revoking access
+- **Permission-Based UI**: UI elements are shown/hidden based on user permissions
+
+For detailed RBAC setup instructions, see [RBAC-Setup.md](./RBAC-Setup.md)
 
 ## Contact
 

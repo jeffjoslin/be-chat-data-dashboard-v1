@@ -1,0 +1,27 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can read their own profile
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false; // Only backend can write
+    }
+    
+    // Users can read their own roles
+    match /userRoles/{userId}/chatbots/{chatbotId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false; // Only backend can write
+    }
+    
+    // Anyone authenticated can read role definitions
+    match /roles/{roleId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Only backend can write
+    }
+    
+    // Temporary rule to allow initialization (REMOVE AFTER SETUP)
+    match /roles/{roleId} {
+      allow write: if true;
+    }
+  }
+}
