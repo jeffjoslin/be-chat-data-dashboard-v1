@@ -33,6 +33,18 @@ export function ChatbotCard({ chatbot, userAccess }: ChatbotCardProps) {
       setShowPermissionDenied(true);
       return;
     }
+
+    // For viewers, redirect to analytics-only view instead of full Chat Data
+    if (userAccess.role === 'viewer') {
+      router.push(`/chatbot/${chatbot.id}/analytics`);
+      return;
+    }
+
+    // For editors, redirect to limited Chat Data access
+    if (userAccess.role === 'editor') {
+      router.push(`/chatbot/${chatbot.id}/manage`);
+      return;
+    }
     
     try {
       setIsLoading(true);
@@ -48,17 +60,22 @@ export function ChatbotCard({ chatbot, userAccess }: ChatbotCardProps) {
           email: currentUser.email || '',
           avatar: currentUser.photoURL || 'https://www.chat-data.com/storage/public/image/avatar_654d8b8bc90461189b362f35.png',
           role: userAccess?.role, // Include role in SSO token
+          permissions: userAccess?.permissions, // Include detailed permissions
+          roleLevel: userAccess?.role === 'admin' ? 'admin' : userAccess?.role === 'editor' ? 'editor' : 'viewer'
         }),
       });
 
       const { ssoToken } = await response.json();
       
-      router.push('https://chatbot.chat-data.online/api/v1/auth/sso?companyid=' +
+      // Use whitelabel domain for SSO
+      const ssoUrl = 'https://chatbot.botexperts.ai/api/v1/auth/sso?companyid=' +
             process.env.NEXT_PUBLIC_COMPANY_ID +
             '&ssoToken=' +
             ssoToken +
             '&redirect=' +
-            process.env.NEXT_PUBLIC_REDIRECT_URL)
+            encodeURIComponent(process.env.NEXT_PUBLIC_REDIRECT_URL || '');
+      console.log('Admin SSO URL:', ssoUrl);
+      router.push(ssoUrl);
     } finally {
       setIsLoading(false);
     }
@@ -99,7 +116,7 @@ export function ChatbotCard({ chatbot, userAccess }: ChatbotCardProps) {
           
           {userAccess && (
             <div className="mt-4 text-xs text-center text-gray-500">
-              <p>Access Level: {userAccess.role}</p>
+              <p>Access Level: <span className="font-medium capitalize">{userAccess.role}</span></p>
               <div className="mt-2 flex flex-wrap gap-1 justify-center">
                 {userAccess.permissions.analytics && (
                   <span className="bg-green-100 text-green-800 px-2 py-0.5 rounded">Analytics</span>
@@ -114,6 +131,11 @@ export function ChatbotCard({ chatbot, userAccess }: ChatbotCardProps) {
                   <span className="bg-red-100 text-red-800 px-2 py-0.5 rounded">Users</span>
                 )}
               </div>
+              <p className="mt-2 text-xs">
+                {userAccess.role === 'viewer' && 'Click for Analytics Dashboard'}
+                {userAccess.role === 'editor' && 'Click for Management Panel'}
+                {userAccess.role === 'admin' && 'Click for Full Access'}
+              </p>
             </div>
           )}
           

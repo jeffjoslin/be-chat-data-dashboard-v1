@@ -6,6 +6,9 @@ export default function handler(req, res) {
   }
 
   try {
+    // Log the payload being signed for debugging
+    console.log('SSO Token Payload:', JSON.stringify(req.body, null, 2));
+    
     // Generate JWT token
     const ssoToken = jwt.sign(
       req.body,
@@ -15,6 +18,7 @@ export default function handler(req, res) {
       }
     );
 
+    console.log('Generated SSO Token:', ssoToken);
     return res.status(200).json({ ssoToken });
   } catch (error) {
     console.error('SSO Token generation error:', error);
