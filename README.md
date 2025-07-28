@@ -50,4 +50,4 @@ For detailed RBAC setup instructions, see [RBAC-Setup.md](./RBAC-Setup.md)
 
 ## Contact
 
-[Chat Data LLC](admin@chat-data.com)
+[Chat Data LLC](admin@chat-data.com)# be-chat-data-dashboard-v1
