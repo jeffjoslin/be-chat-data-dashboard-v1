@@ -14,6 +14,7 @@ interface ChatbotCardProps {
     name: string;
     description: string;
     imageUrl: string;
+    visibility: string;
   };
   userAccess?: ChatbotAccess;
 }
@@ -34,7 +35,7 @@ export function ChatbotCard({ chatbot, userAccess }: ChatbotCardProps) {
       return;
     }
 
-    // For viewers, redirect to analytics-only view instead of full Chat Data
+    // For viewers, redirect to analytics page
     if (userAccess.role === 'viewer') {
       router.push(`/chatbot/${chatbot.id}/analytics`);
       return;
@@ -93,58 +94,34 @@ export function ChatbotCard({ chatbot, userAccess }: ChatbotCardProps) {
         `}
         onClick={handleClick}
       >
-        <Card className="w-[300px] h-[400px] flex flex-col hover:shadow-lg">
-        <CardHeader className="flex-none text-center relative">
-          {userAccess && (
-            <div className="absolute top-2 right-2">
-              <RoleBadge role={userAccess.role} />
+        <Card className="w-[300px] h-[400px] flex items-center justify-center hover:shadow-lg bg-gradient-to-b from-blue-25 to-blue-100 border border-blue-200 shadow-md">
+          <div className="text-center space-y-4">
+            {/* Chatbot Icon - 20% larger */}
+            <div className="w-40 h-40 mx-auto rounded-full overflow-hidden">
+              <img
+                src={chatbot.imageUrl}
+                alt={chatbot.name}
+                className="w-full h-full object-cover"
+              />
             </div>
-          )}
-          <div className="w-32 h-32 mx-auto rounded-full overflow-hidden">
-            <img
-              src={chatbot.imageUrl}
-              alt={chatbot.name}
-              className="w-full h-full object-cover"
-            />
+            
+            {/* Chatbot Name */}
+            <h3 className="text-xl font-semibold text-center text-gray-700">{chatbot.name}</h3>
+            
+            {/* Visibility Badge */}
+            <div className="flex justify-center">
+              <span className={`px-3 py-1 text-sm font-medium rounded-full flex items-center gap-1 ${
+                chatbot.visibility === 'public' 
+                  ? 'bg-green-100 text-green-800' 
+                  : 'bg-yellow-100 text-yellow-800'
+              }`}>
+                <span className={`w-2 h-2 rounded-full ${
+                  chatbot.visibility === 'public' ? 'bg-green-500' : 'bg-yellow-500'
+                }`}></span>
+                {chatbot.visibility === 'public' ? 'Public' : 'Private'}
+              </span>
+            </div>
           </div>
-        </CardHeader>
-        <CardContent className="flex-grow">
-          <h3 className="text-xl font-semibold text-center mb-2">{chatbot.name}</h3>
-          <p className="text-sm text-muted-foreground text-center">
-            {chatbot.description}
-          </p>
-          
-          {userAccess && (
-            <div className="mt-4 text-xs text-center text-gray-500">
-              <p>Access Level: <span className="font-medium capitalize">{userAccess.role}</span></p>
-              <div className="mt-2 flex flex-wrap gap-1 justify-center">
-                {userAccess.permissions.analytics && (
-                  <span className="bg-green-100 text-green-800 px-2 py-0.5 rounded">Analytics</span>
-                )}
-                {userAccess.permissions.settings && (
-                  <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded">Settings</span>
-                )}
-                {userAccess.permissions.chatbotConfig && (
-                  <span className="bg-purple-100 text-purple-800 px-2 py-0.5 rounded">Config</span>
-                )}
-                {userAccess.permissions.userManagement && (
-                  <span className="bg-red-100 text-red-800 px-2 py-0.5 rounded">Users</span>
-                )}
-              </div>
-              <p className="mt-2 text-xs">
-                {userAccess.role === 'viewer' && 'Click for Analytics Dashboard'}
-                {userAccess.role === 'editor' && 'Click for Management Panel'}
-                {userAccess.role === 'admin' && 'Click for Full Access'}
-              </p>
-            </div>
-          )}
-          
-          {!userAccess && (
-            <p className="mt-4 text-sm text-center text-red-600">
-              No Access
-            </p>
-          )}
-        </CardContent>
         </Card>
       </div>
 
